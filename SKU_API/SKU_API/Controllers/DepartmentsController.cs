@@ -9,7 +9,7 @@ namespace SKU_API.Controllers
 {
     [Route("api/v1")]
     [ApiController]
-    public class DepartmentController : ControllerBase
+    public class DepartmentsController : ControllerBase
     {
         [HttpGet]
         [Route("locations/{location_id}/departments")]

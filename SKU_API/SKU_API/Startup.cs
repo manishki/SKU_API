@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SKU_API.DataAccess;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace SKU_API
 {
@@ -25,6 +28,25 @@ namespace SKU_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            //var connectionString = Configuration["PostgreSql:ConnectionString"];
+            //var dbPassword = Configuration["PostgreSql:DbPassword"];
+
+            //var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            //{
+            //    Password = dbPassword
+            //};
+
+            //services.AddDbContext<SkuDbContext>(options => options.UseNpgsql(builder.ConnectionString));
+
+
+            //services.AddEntityFrameworkNpgsql()
+            //    .AddDbContext<SkuDbContext>(opt => 
+            //                    opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+
+            services.AddDbContext<SkuDbContext>(cfg =>
+            {
+                cfg.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
