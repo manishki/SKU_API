@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SKU_API.DataAccess;
 using SKU_API.DataAccess.Entities;
+using SKU_API.DataAccess.Interfaces;
+using SKU_API.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,38 +14,30 @@ namespace SKU_API.Controllers
     [Route("api/v1/[controller]")]
     public class LocationsController : ControllerBase
     {
-        public LocationsController(SkuDbContext skuDbContext)
+        public LocationsController(ILocationRepositoty location)
         {
-            _skuDbContext = skuDbContext;
+            _location = location;
         }
 
-        private readonly SkuDbContext _skuDbContext;
+        private readonly ILocationRepositoty _location;
 
         [HttpGet]
         public IActionResult Get()
         {
-            var obj = new { Name = "Manish", Age = 28, Education= "MCA" };
-
-            //using (var context = new SkuDbContext())
-            //{
+           
             var id = Guid.NewGuid();
-                var cat = new Catrgory()
-                {
-                    CatrgoryId = id,
-                    Name = "abc"
-                };
-            _skuDbContext.Catrgories.Add(cat);
-            _skuDbContext.SaveChanges();
-            //}
+            var loc = new Location()
+            {
+                LocationId = id,
+                Name = "Hyderabad"
+            };
+            
+            _location.Post(loc);
 
 
-            //using (var context = new SkuDbContext())
-            //{
-                var catrogry = _skuDbContext.Catrgories.Where(x => x.CatrgoryId == id);
-                return Ok(catrogry);
-            //}
-
-            //return Ok();
+            
+            var location = _location.Get(id);
+                return Ok(location);
 
           
         }
