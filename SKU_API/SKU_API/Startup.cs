@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using SKU_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using SKU_API.DataAccess.Repositories;
+using SKU_API.DataAccess.Interfaces;
 
 namespace SKU_API
 {
@@ -28,20 +30,7 @@ namespace SKU_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //var connectionString = Configuration["PostgreSql:ConnectionString"];
-            //var dbPassword = Configuration["PostgreSql:DbPassword"];
-
-            //var builder = new NpgsqlConnectionStringBuilder(connectionString)
-            //{
-            //    Password = dbPassword
-            //};
-
-            //services.AddDbContext<SkuDbContext>(options => options.UseNpgsql(builder.ConnectionString));
-
-
-            //services.AddEntityFrameworkNpgsql()
-            //    .AddDbContext<SkuDbContext>(opt => 
-            //                    opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+            services.AddTransient<ILocationRepositoty, LocationRepositoty>();
 
             services.AddDbContext<SkuDbContext>(cfg =>
             {
